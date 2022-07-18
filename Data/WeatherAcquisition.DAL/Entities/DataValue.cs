@@ -11,6 +11,6 @@ namespace WeatherAcquisition.DAL.Entities
 
         public DataSource Source { get; set; }
 
-        public bool IsFailed { get; set; }
+        public bool IsFaulty { get; set; }
     }
 }

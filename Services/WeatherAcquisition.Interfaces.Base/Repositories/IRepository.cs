@@ -43,7 +43,7 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
     {
         IEnumerable<T> Items { get; }
 
-        int TotalItemCount { get; set; }
+        int TotalItemCount { get; }
 
         int PageIndex { get; }
 
