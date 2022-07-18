@@ -1,9 +1,11 @@
 ﻿<Application x:Class="WeatherAcquisition.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WeatherAcquisition.WPF"
-             StartupUri="MainWindow.xaml">
+             xmlns:locator="clr-namespace:WeatherAcquisition.WPF.Locator"
+             StartupUri="Views/Windows/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <locator:ServiceLocator x:Key="Locator"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
