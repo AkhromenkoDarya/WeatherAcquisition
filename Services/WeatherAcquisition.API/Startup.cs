@@ -7,6 +7,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WeatherAcquisition.API.Data;
 using WeatherAcquisition.DAL.Context;
+using WeatherAcquisition.DAL.Entities;
+using WeatherAcquisition.DAL.Repositories;
+using WeatherAcquisition.Interfaces.Base.Repositories;
 
 namespace WeatherAcquisition.API
 {
@@ -21,6 +24,12 @@ namespace WeatherAcquisition.API
                     opt => opt.MigrationsAssembly("WeatherAcquisition.DAL.SqlServer")));
             
             services.AddTransient<DataDbInitializer>();
+
+            //services.AddScoped<IRepository<DataSource>, DbRepository<DataSource>>();
+            //services.AddScoped<IRepository<DataValue>, DbRepository<DataValue>>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
+            services.AddScoped(typeof(INamedRepository<>), typeof(DbNamedRepository<>));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
