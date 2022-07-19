@@ -107,6 +107,11 @@ namespace WeatherAcquisition.DAL.Repositories
                 return new Page(Enumerable.Empty<T>(), 0, pageIndex, pageSize);
             }
 
+            if (query is not IOrderedQueryable<T>)
+            {
+                query = query.OrderBy(item => item.Id);
+            }
+
             if (pageIndex > 0)
             {
                 query = query.Skip(pageIndex * pageSize);
