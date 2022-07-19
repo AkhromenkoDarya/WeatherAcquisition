@@ -18,6 +18,8 @@ namespace WeatherAcquisition.DAL.Repositories
 
         protected virtual IQueryable<T> Items => Set;
 
+        public bool AutoSaveChanges { get; set; }
+
         public DbRepository(DataDb db)
         {
             _db = db;
@@ -147,7 +149,13 @@ namespace WeatherAcquisition.DAL.Repositories
             //_db.Entry(item).State = EntityState.Added;
 
             await _db.AddAsync(item, cancellationToken).ConfigureAwait(false);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            
+            //await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            if (AutoSaveChanges)
+            {
+                await SaveChanges(cancellationToken).ConfigureAwait(false);
+            }
 
             return item;
         }
@@ -164,7 +172,13 @@ namespace WeatherAcquisition.DAL.Repositories
             //_db.Entry(item).State = EntityState.Modified;
 
             _db.Update(item);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            //await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            if (AutoSaveChanges)
+            {
+                await SaveChanges(cancellationToken).ConfigureAwait(false);
+            }
 
             return item;
         }
@@ -186,7 +200,13 @@ namespace WeatherAcquisition.DAL.Repositories
             //_db.Entry(item).State = EntityState.Deleted;
 
             _db.Remove(item);
-            await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            //await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            if (AutoSaveChanges)
+            {
+                await SaveChanges(cancellationToken).ConfigureAwait(false);
+            }
 
             return item;
         }
@@ -204,6 +224,11 @@ namespace WeatherAcquisition.DAL.Repositories
             }
 
             return await Remove(item, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
+        {
+            return await _db.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }
