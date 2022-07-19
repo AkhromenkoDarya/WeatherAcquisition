@@ -11,6 +11,8 @@ namespace WeatherAcquisition.DAL.Repositories
     public class DbNamedRepository<T> : DbRepository<T>, INamedRepository<T> where T : NamedEntity, 
         new()
     {
+        //protected override IQueryable<T> Items => base.Items.OrderBy(i => i.Name);
+
         public DbNamedRepository(DataDb db) : base(db) {}
         public async Task<bool> ContainsName(string name, 
             CancellationToken cancellationToken = default)

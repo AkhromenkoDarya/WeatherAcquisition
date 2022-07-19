@@ -64,7 +64,13 @@ namespace WeatherAcquisition.DAL.Repositories
                 return Enumerable.Empty<T>();
             }
 
-            IQueryable<T> query = Items;
+            //IQueryable<T> query = Items.OrderBy(i => i.Id);
+
+            IQueryable<T> query = Items switch
+            {
+                IOrderedQueryable<T> orderedQueryable => orderedQueryable,
+                { } q => q.OrderBy(i => i.Id)
+            };
 
             if (skip > 0)
             {
