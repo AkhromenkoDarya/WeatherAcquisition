@@ -58,12 +58,12 @@ namespace WeatherAcquisition.WebAPIClients.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<T> Remove(T item, CancellationToken cancellationToken = default)
+        public Task<T> Delete(T item, CancellationToken cancellationToken = default)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<T> RemoveById(int id, CancellationToken cancellationToken = default)
+        public Task<T> DeleteById(int id, CancellationToken cancellationToken = default)
         {
             throw new System.NotImplementedException();
         }

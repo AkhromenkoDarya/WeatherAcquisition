@@ -34,9 +34,9 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 
         Task<T> Update(T item, CancellationToken cancellationToken = default);
 
-        Task<T> Remove(T item, CancellationToken cancellationToken = default);
+        Task<T> Delete(T item, CancellationToken cancellationToken = default);
 
-        Task<T> RemoveById(int id, CancellationToken cancellationToken = default);
+        Task<T> DeleteById(int id, CancellationToken cancellationToken = default);
     }
 
     public interface IPage<out T>

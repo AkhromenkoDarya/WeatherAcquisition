@@ -188,7 +188,7 @@ namespace WeatherAcquisition.DAL.Repositories
             return item;
         }
 
-        public async Task<T> Remove(T item, CancellationToken cancellationToken = default)
+        public async Task<T> Delete(T item, CancellationToken cancellationToken = default)
         {
             if (item is null)
             {
@@ -216,7 +216,7 @@ namespace WeatherAcquisition.DAL.Repositories
             return item;
         }
 
-        public async Task<T> RemoveById(int id, CancellationToken cancellationToken = default)
+        public async Task<T> DeleteById(int id, CancellationToken cancellationToken = default)
         {
             T item = Set.Local.FirstOrDefault(i => i.Id == id) ?? await Set
                 .Select(i => new T { Id = i.Id })
@@ -228,7 +228,7 @@ namespace WeatherAcquisition.DAL.Repositories
                 return null;
             }
 
-            return await Remove(item, cancellationToken).ConfigureAwait(false);
+            return await Delete(item, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<int> SaveChanges(CancellationToken cancellationToken = default)
