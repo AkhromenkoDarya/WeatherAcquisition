@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using WeatherAcquisition.Interfaces.Base.Entities;
 
@@ -7,41 +8,47 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 {
     public interface IRepository<T> where T : IEntity
     {
-        Task<bool> ContainsId(int id);
+        //async Task<bool> ContainsId(int id, CancellationToken cancellationToken = default) =>
+        //await GetById(id, cancellationToken) is not null;
 
-        Task<bool> Contains(T item);
+        Task<bool> ContainsId(int id, CancellationToken cancellationToken = default);
 
-        Task<int> GetCount();
+        Task<bool> Contains(T item, CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<int> GetCount(CancellationToken cancellationToken = default);
 
-        Task<IEnumerable<T>> Get(int skip, int count);
+        Task<IEnumerable<T>> GetAll(CancellationToken cancellationToken = default);
 
-        Task<IPage<T>> GetPage(int pageIndex, int pageSize);
+        Task<IEnumerable<T>> Get(int skip, int count, 
+            CancellationToken cancellationToken = default);
 
-        //async Task<T> GetById(int id) => (await GetAll()).FirstOrDefault(item => item.Id == id);
+        Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
+            CancellationToken cancellationToken = default);
 
-        Task<T> GetById(int id);
+        //async Task<T> GetById(int id, CancellationToken cancellationToken = default) =>
+        //(await GetAll(cancellationToken)).FirstOrDefault(item => item.Id == id);
 
-        Task<T> Add(T item);
+        Task<T> GetById(int id, CancellationToken cancellationToken = default);
 
-        Task<T> Update(T item);
+        Task<T> Add(T item, CancellationToken cancellationToken = default);
 
-        Task<T> Remove(T item);
+        Task<T> Update(T item, CancellationToken cancellationToken = default);
 
-        Task<T> RemoveById(int id);
+        Task<T> Remove(T item, CancellationToken cancellationToken = default);
+
+        Task<T> RemoveById(int id, CancellationToken cancellationToken = default);
     }
 
-    public interface IPage<T>
+    public interface IPage<out T>
     {
         IEnumerable<T> Items { get; }
 
-        int TotalItemCount { get; set; }
+        int TotalItemCount { get; }
 
         int PageIndex { get; }
 
         int PageSize { get; }
 
-        int TotalPageCount => (int)Math.Ceiling((double)TotalItemCount / TotalPageCount);
+        int TotalPageCount => (int) Math.Ceiling((double) TotalItemCount / PageSize);
     }
 }
