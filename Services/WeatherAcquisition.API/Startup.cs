@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WeatherAcquisition.API.Data;
 using WeatherAcquisition.DAL.Context;
-using WeatherAcquisition.DAL.Entities;
 using WeatherAcquisition.DAL.Repositories;
 using WeatherAcquisition.Interfaces.Base.Repositories;
 
@@ -52,7 +51,7 @@ namespace WeatherAcquisition.API
                     "WeatherAcquisition.API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
