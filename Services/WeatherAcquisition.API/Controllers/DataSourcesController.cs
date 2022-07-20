@@ -18,7 +18,6 @@ namespace WeatherAcquisition.API.Controllers
             _repository = repository;
 
         [HttpGet("count")]
-
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<IActionResult> GetItemCount() => Ok(await _repository.GetCount());
 
@@ -29,7 +28,6 @@ namespace WeatherAcquisition.API.Controllers
             ? Ok(true) 
             : NotFound(false);
 
-        [HttpGet("contains")]
         [HttpPost("contains")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
@@ -44,8 +42,11 @@ namespace WeatherAcquisition.API.Controllers
 
         [HttpGet("items[[{skip:int}:{count:int}]]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<DataSource>>> Get(int skip, int count) => 
-            Ok(await _repository.Get(skip, count));
+            await _repository.Get(skip, count) is not { } result || !result.Any() 
+                ? BadRequest("No Content")
+                : Ok(result);
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -58,15 +59,12 @@ namespace WeatherAcquisition.API.Controllers
         [HttpGet("page/{pageIndex:int}/{pageSize:int}")]
         [HttpGet("page[[{pageIndex:int}/{pageSize:int}]]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DataSource>> GetPage(int pageIndex, int pageSize)
-        {
-            IPage<DataSource> result = await _repository.GetPage(pageIndex, pageSize);
-
-            return result.Items.Any()
-                ? Ok(result)
-                : NotFound(result);
-        }
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<DataSource>> GetPage(int pageIndex, int pageSize) =>
+            await _repository.GetPage(pageIndex, pageSize) is not { } result
+            || !result.Items.Any()
+                ? BadRequest("No content")
+                : Ok(result);
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]

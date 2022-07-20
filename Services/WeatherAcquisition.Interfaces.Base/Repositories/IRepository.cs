@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherAcquisition.Interfaces.Base.Entities;
@@ -49,6 +48,6 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 
         int PageSize { get; }
 
-        int TotalPageCount => (int) Math.Ceiling((double) TotalItemCount / PageSize);
+        int TotalPageCount { get; }
     }
 }

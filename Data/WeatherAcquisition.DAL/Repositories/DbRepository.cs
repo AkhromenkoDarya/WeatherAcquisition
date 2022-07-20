@@ -18,7 +18,7 @@ namespace WeatherAcquisition.DAL.Repositories
 
         protected virtual IQueryable<T> Items => Set;
 
-        public bool AutoSaveChanges { get; set; }
+        public bool AutoSaveChanges { get; set; } = true;
 
         public DbRepository(DataDb db)
         {
@@ -82,8 +82,11 @@ namespace WeatherAcquisition.DAL.Repositories
             return await query.Take(count).ToArrayAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        protected record Page(IEnumerable<T> Items, int TotalItemCount, int PageIndex, 
-            int PageSize) : IPage<T>;
+        protected record Page(IEnumerable<T> Items, int TotalItemCount, int PageIndex,
+            int PageSize) : IPage<T>
+        {
+            public int TotalPageCount => (int)Math.Ceiling((double)TotalItemCount / PageSize);
+        }
 
         public async Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
             CancellationToken cancellationToken = default)
@@ -94,15 +97,15 @@ namespace WeatherAcquisition.DAL.Repositories
             //}
 
             if (pageSize <= 0)
-            {
+            { 
                 return new Page(Enumerable.Empty<T>(), await GetCount(cancellationToken)
                     .ConfigureAwait(false), pageIndex, pageSize);
             }
 
             IQueryable<T> query = Items;
-            int totalCount = await query.CountAsync(cancellationToken).ConfigureAwait(false);
+            int totalItemCount = await query.CountAsync(cancellationToken).ConfigureAwait(false);
 
-            if (totalCount == 0)
+            if (totalItemCount == 0)
             {
                 return new Page(Enumerable.Empty<T>(), 0, pageIndex, pageSize);
             }
@@ -120,7 +123,7 @@ namespace WeatherAcquisition.DAL.Repositories
             query = query.Take(pageSize);
             T[] items = await query.ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
-            return new Page(items, totalCount, pageIndex, pageSize);
+            return new Page(items, totalItemCount, pageIndex, pageSize);
         }
 
         public async Task<T> GetById(int id, CancellationToken cancellationToken = default)
