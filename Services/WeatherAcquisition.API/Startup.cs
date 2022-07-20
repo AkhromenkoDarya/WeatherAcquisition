@@ -20,7 +20,8 @@ namespace WeatherAcquisition.API
                 options => options
                 .UseSqlServer(
                     Configuration.GetConnectionString("Data"), 
-                    opt => opt.MigrationsAssembly("WeatherAcquisition.DAL.SqlServer")));
+                    opt => 
+                        opt.MigrationsAssembly("WeatherAcquisition.DAL.SqlServer")));
             
             services.AddTransient<DataDbInitializer>();
 
