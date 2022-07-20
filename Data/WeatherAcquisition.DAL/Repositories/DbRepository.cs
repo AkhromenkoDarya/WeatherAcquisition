@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace WeatherAcquisition.DAL.Repositories
             //    .Take(count)
             //    .ToArrayAsync(cancellationToken);
 
-            if (count <= 0)
+            if (count <= 0 || count > Items.Count() - skip)
             {
                 return Enumerable.Empty<T>();
             }
