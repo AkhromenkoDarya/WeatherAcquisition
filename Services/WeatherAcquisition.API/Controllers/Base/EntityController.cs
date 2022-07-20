@@ -45,11 +45,8 @@ namespace WeatherAcquisition.API.Controllers.Base
 
         [HttpGet("items[[{skip:int}:{count:int}]]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<T>>> Get(int skip, int count) =>
-            await _repository.Get(skip, count) is { } result && result.Any()
-                ? Ok(result)
-                : NotFound();
+             Ok(await _repository.Get(skip, count));
 
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

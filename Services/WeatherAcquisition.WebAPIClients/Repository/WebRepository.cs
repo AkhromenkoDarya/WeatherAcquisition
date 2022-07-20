@@ -39,9 +39,9 @@ namespace WeatherAcquisition.WebAPIClients.Repository
                 .ConfigureAwait(false);
 
         public async Task<IEnumerable<T>> Get(int skip, int count,
-            CancellationToken cancellationToken = default) =>
-            await _client.GetFromJsonAsync<IEnumerable<T>>($"items[{skip}:{count}]", 
-                cancellationToken).ConfigureAwait(false);
+            CancellationToken cancellationToken = default) => 
+            await _client.GetFromJsonAsync<IEnumerable<T>>($"items[{skip}:{count}]",
+            cancellationToken).ConfigureAwait(false);
 
         public async Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
             CancellationToken cancellationToken = default)
