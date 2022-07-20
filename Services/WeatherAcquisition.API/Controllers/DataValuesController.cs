@@ -6,9 +6,9 @@ using WeatherAcquisition.Interfaces.Base.Repositories;
 namespace WeatherAcquisition.API.Controllers
 {
     [ApiController]
-    public class DataSourcesController : EntityController<DataSource>
+    public class DataValuesController : EntityController<DataValue>
     {
-        public DataSourcesController(IRepository<DataSource> repository) : base(repository)
+        public DataValuesController(IRepository<DataValue> repository) : base(repository)
         {
 
         }
