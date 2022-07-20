@@ -5,6 +5,7 @@ using WeatherAcquisition.Interfaces.Base.Entities;
 
 namespace WeatherAcquisition.Interfaces.Base.Repositories
 {
+    //TODO: Добавить методы получения нескольких первых и последних элементов репозитория.
     public interface IRepository<T> where T : IEntity
     {
         //async Task<bool> ContainsId(int id, CancellationToken cancellationToken = default) =>
