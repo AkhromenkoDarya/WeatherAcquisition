@@ -9,24 +9,31 @@
         Title="{Binding Title}"
         Width="800" Height="450">
     <DockPanel>
-        <Menu DockPanel.Dock="Top" IsMainMenu="True">
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <DockPanel LastChildFill="False"/>
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
-            <MenuItem Header="_File">
-                <MenuItem Header="_Exit" Command="{StaticResource CloseWindowCommand}"/>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Data">
+                <MenuItem Header="Load Data" Command="{Binding LoadDataSourcesCommand}"/>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem DockPanel.Dock="Right">
-                <ResizeGrip/>
-            </StatusBarItem>
-            <StatusBarItem Content="{Binding Status}"/>
-        </StatusBar>
         <Grid>
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox ItemsSource="{Binding DataSources}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                                <TextBlock Text="{Binding Id}"/>:
+                                <TextBlock Text="{Binding Name}"/>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Description}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <GridSplitter Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                          Width="2" Background="Transparent"/>
         </Grid>
     </DockPanel>
 </Window>
