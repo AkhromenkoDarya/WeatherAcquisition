@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 **/wwwroot/lib-blazor
 **/wwwroot/lib-*
+/WeatherAcquisition.BlazorUI/wwwroot/css
