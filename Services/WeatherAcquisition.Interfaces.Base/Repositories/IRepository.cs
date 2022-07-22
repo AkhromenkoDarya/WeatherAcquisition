@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using WeatherAcquisition.Interfaces.Base.Entities;
 
 namespace WeatherAcquisition.Interfaces.Base.Repositories
 {
+    //TODO: Добавить методы получения нескольких первых и последних элементов репозитория.
     public interface IRepository<T> where T : IEntity
     {
         //async Task<bool> ContainsId(int id, CancellationToken cancellationToken = default) =>
@@ -34,9 +34,9 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 
         Task<T> Update(T item, CancellationToken cancellationToken = default);
 
-        Task<T> Remove(T item, CancellationToken cancellationToken = default);
+        Task<T> Delete(T item, CancellationToken cancellationToken = default);
 
-        Task<T> RemoveById(int id, CancellationToken cancellationToken = default);
+        Task<T> DeleteById(int id, CancellationToken cancellationToken = default);
     }
 
     public interface IPage<out T>
@@ -49,6 +49,6 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 
         int PageSize { get; }
 
-        int TotalPageCount => (int) Math.Ceiling((double) TotalItemCount / PageSize);
+        int TotalPageCount { get; }
     }
 }

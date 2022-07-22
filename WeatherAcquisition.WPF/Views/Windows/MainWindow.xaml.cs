@@ -1,4 +1,5 @@
-﻿namespace WeatherAcquisition.WPF.Views.Windows
+﻿
+namespace WeatherAcquisition.WPF.Views.Windows
 {
     public partial class MainWindow
     {

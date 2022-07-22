@@ -10,6 +10,6 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
 
         Task<T> GetByName(string name, CancellationToken cancellationToken = default);
 
-        Task<T> RemoveByName(string name, CancellationToken cancellationToken = default);
+        Task<T> DeleteByName(string name, CancellationToken cancellationToken = default);
     }
 }

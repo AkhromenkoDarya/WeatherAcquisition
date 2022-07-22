@@ -30,7 +30,7 @@ namespace WeatherAcquisition.DAL.Repositories
                 cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<T> RemoveByName(string name, 
+        public async Task<T> DeleteByName(string name, 
             CancellationToken cancellationToken = default)
         {
             T item = Set.Local.FirstOrDefault(i => i.Name == name) ?? await Set
@@ -43,7 +43,7 @@ namespace WeatherAcquisition.DAL.Repositories
                 return null;
             }
 
-            return await Remove(item, cancellationToken).ConfigureAwait(false);
+            return await Delete(item, cancellationToken).ConfigureAwait(false);
         }
     }
 }

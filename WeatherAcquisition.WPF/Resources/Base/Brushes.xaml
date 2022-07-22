@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:p="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" p:Freeze="True"/>
+    <SolidColorBrush x:Key="BlackBrush" Color="Black" p:Freeze="True"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="White" p:Freeze="True"/>
+
+    <SolidColorBrush x:Key="RedBrush" Color="Red" p:Freeze="True"/>
+    <SolidColorBrush x:Key="GreenBrush" Color="Green" p:Freeze="True"/>
+    <SolidColorBrush x:Key="BlueBrush" Color="Blue" p:Freeze="True"/>
+
+    <SolidColorBrush x:Key="LightGrayBrush" Color="LightGray" p:Freeze="True"/>
+    <SolidColorBrush x:Key="GrayBrush" Color="Gray" p:Freeze="True"/>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="DarkGray" p:Freeze="True"/>
+
+    <SolidColorBrush x:Key="OrangeBrush" Color="Orange" p:Freeze="True"/>
+    <SolidColorBrush x:Key="OrangeRedBrush" Color="OrangeRed" p:Freeze="True"/>
+    <SolidColorBrush x:Key="DarkBrush" Color="DarkRed" p:Freeze="True"/>
+
+</ResourceDictionary>
