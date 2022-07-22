@@ -98,15 +98,15 @@ namespace WeatherAcquisition.WebAPIClients.Repository
 
         private class PageItems : IPage<T>
         {
-            public IEnumerable<T> Items { get; init; }
+            public IEnumerable<T> Items { get; set; }
 
-            public int TotalItemCount { get; init; }
+            public int TotalItemCount { get; set; }
 
-            public int PageIndex { get; init; }
+            public int PageIndex { get; set; }
 
-            public int PageSize { get; init; }
+            public int PageSize { get; set; }
 
-            public int TotalPageCount { get; init; }
+            public int TotalPageCount { get; set; }
         }
 
         public async Task<T> Add(T item, CancellationToken cancellationToken = default)
