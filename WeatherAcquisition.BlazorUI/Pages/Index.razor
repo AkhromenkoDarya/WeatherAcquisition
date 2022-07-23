@@ -1,3 +1,42 @@
 ﻿@page "/"
+@using WeatherAcquisition.Interfaces.Base.Repositories
+@using WeatherAcquisition.Domain.Base
 
-Welcome!
+@inject IRepository<DataSourceInfo> Repository
+
+@if (_sources is { } sources)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (DataSourceInfo src in sources)
+            {
+                <tr>
+                    <td>@src.Id</td>
+                    <td>@src.Name</td>
+                    <td>@src.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading data...</p>
+}
+
+@code
+{
+    private IList<DataSourceInfo> _sources;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _sources = (await Repository.GetAll()).ToList();
+    }
+}
