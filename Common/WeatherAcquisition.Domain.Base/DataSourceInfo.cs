@@ -1,5 +1,4 @@
-﻿using System;
-using WeatherAcquisition.Interfaces.Base.Entities;
+﻿using WeatherAcquisition.Interfaces.Base.Entities;
 
 namespace WeatherAcquisition.Domain.Base
 {
