@@ -82,7 +82,7 @@ namespace WeatherAcquisition.DAL.Repositories
             return await query.Take(count).ToArrayAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        protected record Page(IEnumerable<T> Items, int TotalItemCount, int PageIndex,
+        protected record Page(IEnumerable<T> Items, int TotalItemCount, int PageIndex, 
             int PageSize) : IPage<T>
         {
             public int TotalPageCount => (int)Math.Ceiling((double)TotalItemCount / PageSize);

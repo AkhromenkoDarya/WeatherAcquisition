@@ -1,0 +1,102 @@
+﻿@page "/"
+@using WeatherAcquisition.Interfaces.Base.Repositories
+@using WeatherAcquisition.Domain.Base
+
+@inject IRepository<DataSourceInfo> Repository
+
+<h3>Data</h3>
+
+@*<button class="btn btn-primary" @onclick="async() => await UpdateSources()">Refresh</button>*@
+<button class="btn btn-primary" @onclick="RefreshButton_OnClick">Refresh</button>
+
+<hr/>
+
+<EditForm Model="_dataSourceCreationModel" OnValidSubmit="OnSourceCreated">
+    <div class="row">
+        <div class="col-3">
+            <InputText id="new-datasource-name" @bind-Value="_dataSourceCreationModel.Name" />
+        </div>
+        <div class="col-9">
+            <InputText id="new-datasource-description" @bind-Value="_dataSourceCreationModel.Description" />
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" type="submit">Создать</button>
+</EditForm>
+
+@if (_sources is { } sources)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (DataSourceInfo src in sources)
+            {
+                <tr>
+                    <td>@src.Id</td>
+                    <td>@src.Name</td>
+                    <td>@src.Description</td>
+                    <td>
+                        <button class="btn btn-outline-danger" @onclick="() => Remove(src)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading data...</p>
+}
+
+@code
+{
+    private DataSourceInfo _dataSourceCreationModel = new();
+
+    private IList<DataSourceInfo> _sources;
+
+    private async Task UpdateSources()
+    {
+        Console.WriteLine("Requesting data from the server...");
+        _sources = (await Repository.GetAll()).ToList();
+        Console.WriteLine("Data request from the server is completed");
+    }
+
+    protected override async Task OnInitializedAsync() => await UpdateSources();
+
+    private async Task RefreshButton_OnClick() => await UpdateSources();
+
+    private async Task OnSourceCreated()
+    {
+        DataSourceInfo createdSource = await Repository.Add(_dataSourceCreationModel);
+
+        if (createdSource is null)
+        {
+            return;
+        }
+        _sources.Add(createdSource);
+        _dataSourceCreationModel = new DataSourceInfo();
+    }
+
+    private async Task Remove(DataSourceInfo source)
+    {
+        if (_sources is not { Count: > 0})
+        {
+            return;
+        }
+
+        DataSourceInfo removedItem = await Repository.Delete(source);
+
+        if (removedItem is not null)
+        {
+            _sources.Remove(removedItem);
+        }
+    }
+}
