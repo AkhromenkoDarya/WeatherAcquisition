@@ -9,6 +9,20 @@
 @*<button class="btn btn-primary" @onclick="async() => await UpdateSources()">Refresh</button>*@
 <button class="btn btn-primary" @onclick="RefreshButton_OnClick">Refresh</button>
 
+<hr/>
+
+<EditForm Model="_dataSourceCreationModel" OnValidSubmit="OnSourceCreated">
+    <div class="row">
+        <div class="col-3">
+            <InputText id="new-datasource-name" @bind-Value="_dataSourceCreationModel.Name" />
+        </div>
+        <div class="col-9">
+            <InputText id="new-datasource-description" @bind-Value="_dataSourceCreationModel.Description" />
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" type="submit">Создать</button>
+</EditForm>
+
 @if (_sources is { } sources)
 {
     <table class="table">
@@ -44,6 +58,8 @@ else
 
 @code
 {
+    private DataSourceInfo _dataSourceCreationModel = new();
+
     private IList<DataSourceInfo> _sources;
 
     private async Task UpdateSources()
@@ -56,6 +72,18 @@ else
     protected override async Task OnInitializedAsync() => await UpdateSources();
 
     private async Task RefreshButton_OnClick() => await UpdateSources();
+
+    private async Task OnSourceCreated()
+    {
+        DataSourceInfo createdSource = await Repository.Add(_dataSourceCreationModel);
+
+        if (createdSource is null)
+        {
+            return;
+        }
+        _sources.Add(createdSource);
+        _dataSourceCreationModel = new DataSourceInfo();
+    }
 
     private async Task Remove(DataSourceInfo source)
     {
