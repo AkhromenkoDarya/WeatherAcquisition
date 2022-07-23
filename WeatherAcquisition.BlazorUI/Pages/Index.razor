@@ -4,6 +4,11 @@
 
 @inject IRepository<DataSourceInfo> Repository
 
+<h3>Data</h3>
+
+@*<button class="btn btn-primary" @onclick="async() => await UpdateSources()">Refresh</button>*@
+<button class="btn btn-primary" @onclick="RefreshButton_OnClick">Refresh</button>
+
 @if (_sources is { } sources)
 {
     <table class="table">
@@ -35,8 +40,14 @@ else
 {
     private IList<DataSourceInfo> _sources;
 
-    protected override async Task OnInitializedAsync()
+    private async Task UpdateSources()
     {
+        Console.WriteLine("Requesting data from the server...");
         _sources = (await Repository.GetAll()).ToList();
+        Console.WriteLine("Data request from the server is completed");
     }
+
+    protected override async Task OnInitializedAsync() => await UpdateSources();
+
+    private async Task RefreshButton_OnClick() => await UpdateSources();
 }
