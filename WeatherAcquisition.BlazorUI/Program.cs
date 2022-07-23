@@ -3,6 +3,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WeatherAcquisition.BlazorUI.Infrastructure.Extensions;
+using WeatherAcquisition.Domain.Base;
+using WeatherAcquisition.Interfaces.Base.Repositories;
+using WeatherAcquisition.WebAPIClients.Repository;
 
 namespace WeatherAcquisition.BlazorUI
 {
@@ -13,12 +17,22 @@ namespace WeatherAcquisition.BlazorUI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient
+            IServiceCollection services = builder.Services;
+            services.AddScoped(sp => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
-            await builder.Build().RunAsync();
+            //services.AddHttpClient<IRepository<DataSourceInfo>, WebRepository<DataSourceInfo>>(
+            //    (host, client) => client.BaseAddress = new Uri(
+            //        host.GetRequiredService<IWebAssemblyHostEnvironment>().BaseAddress 
+            //        + "api/SourceRepository")
+            //    );
+
+            services.AddApi<IRepository<DataSourceInfo>, WebRepository<DataSourceInfo>>(
+                "api/SourceRepository");
+
+                await builder.Build().RunAsync();
         }
     }
 }
