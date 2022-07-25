@@ -10,4 +10,4 @@ namespace WeatherAcquisition.DAL.Entities
 
         //public ICollection<DataValue> Values { get; set; } = new HashSet<DataValue>();
     }
-}
+}                                                                                                   
