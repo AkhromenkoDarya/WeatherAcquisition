@@ -18,7 +18,8 @@ namespace WeatherAcquisition.BlazorUI
             builder.RootComponents.Add<App>("#app");
 
             IServiceCollection services = builder.Services;
-            services.AddScoped(sp => new HttpClient
+
+            services.AddScoped(_ => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });

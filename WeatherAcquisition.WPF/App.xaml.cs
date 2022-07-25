@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using WeatherAcquisition.DAL.Entities;
 using WeatherAcquisition.Interfaces.Base.Repositories;
 using WeatherAcquisition.WebAPIClients.Repository;
+using WeatherAcquisition.WPF.Infrastructure.Extensions;
 using WeatherAcquisition.WPF.Services.Registration;
 using WeatherAcquisition.WPF.ViewModels.Registration;
 
@@ -38,21 +39,23 @@ namespace WeatherAcquisition.WPF
                 .AddViewModels()
                 .AddServices();
 
-            //TODO: Подумать над оптимизацией для регистрации сразу нескольких HTTP-клиентов.
-            services.AddHttpClient<IRepository<DataSource>, WebRepository<DataSource>>(
-                client =>
-                {
-                    // "/" в конце обязателен!
-                    client.BaseAddress = new Uri($"{hostContext.Configuration["WebApi"]}" +
-                                                 "api/DataSources/");
-                });
+            //services.AddHttpClient<IRepository<DataSource>, WebRepository<DataSource>>(
+            //    client =>
+            //    {
+            //        // "/" в конце обязателен!
+            //        client.BaseAddress = new Uri($"{hostContext.Configuration["WebApi"]}" +
+            //                                     "api/DataSources/");
+            //    });
 
-            services.AddHttpClient<IRepository<DataValue>, WebRepository<DataValue>>(
-                client =>
-                {
-                    client.BaseAddress = new Uri($"{hostContext.Configuration["WebApi"]}" +
-                                                 "api/DataValues/");
-                });
+            //services.AddHttpClient<IRepository<DataValue>, WebRepository<DataValue>>(
+            //    client =>
+            //    {
+            //        client.BaseAddress = new Uri($"{hostContext.Configuration["WebApi"]}" +
+            //                                     "api/DataValues/");
+            //    });
+
+            services.AddApi<IRepository<DataSource>, WebRepository<DataSource>>("api/DataSources/");
+            services.AddApi<IRepository<DataValue>, WebRepository<DataValue>>("api/DataValues/");
         }
 
         protected override async void OnStartup(StartupEventArgs e)
