@@ -23,7 +23,7 @@ namespace WeatherAcquisition.API.Data
 
             var random = new Random();
 
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= 20; i++)
             {
                 var source = new DataSource
                 {
@@ -33,7 +33,7 @@ namespace WeatherAcquisition.API.Data
 
                 _db.Sources.Add(source);
 
-                var values = new DataValue[random.Next(10, 20)];
+                var values = new DataValue[random.Next(10, 30)];
 
                 for ((var j, int count) = (0, values.Length); j < count; j++)
                 {

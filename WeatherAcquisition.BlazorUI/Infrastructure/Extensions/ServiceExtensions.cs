@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WeatherAcquisition.BlazorUI.Infrastructure.Extensions
@@ -8,10 +9,10 @@ namespace WeatherAcquisition.BlazorUI.Infrastructure.Extensions
         public static IHttpClientBuilder AddApi<TInterface, TClient>(
             this IServiceCollection services, string apiAddress)
             where TInterface : class
-            where TClient : class, TInterface => 
+            where TClient : class, TInterface =>
             services
                 .AddHttpClient<TInterface, TClient>(
-                    (host, client) => client.BaseAddress = new(
+                    (host, client) => client.BaseAddress = new Uri(
                         $"{host.GetRequiredService<IWebAssemblyHostEnvironment>().BaseAddress}" +
                         $"{apiAddress}")
                     );

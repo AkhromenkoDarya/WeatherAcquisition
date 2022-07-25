@@ -59,6 +59,22 @@ namespace WeatherAcquisition.API.Controllers.Base
                 ? Ok(item)
                 : NotFound();
 
+        [HttpGet("firsts[[{count:int}]]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<T>>> GetFirsts(int count) => await _repository
+            .GetFirsts(count) is { } items && items.Any() 
+            ? Ok(items) 
+            : NotFound();
+
+        [HttpGet("lasts[[{count:int}]]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<T>>> GetLasts(int count) => await _repository
+            .GetLasts(count) is { } items && items.Any()
+            ? Ok(items)
+            : NotFound();
+
         [HttpGet("page/{pageIndex:int}/{pageSize:int}")]
         [HttpGet("page[[{pageIndex:int}/{pageSize:int}]]")]
         [ProducesResponseType(StatusCodes.Status200OK)]

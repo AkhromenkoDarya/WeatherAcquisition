@@ -22,13 +22,17 @@ namespace WeatherAcquisition.Interfaces.Base.Repositories
         Task<IEnumerable<T>> Get(int skip, int count, 
             CancellationToken cancellationToken = default);
 
-        Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
-            CancellationToken cancellationToken = default);
-
         //async Task<T> GetById(int id, CancellationToken cancellationToken = default) =>
         //(await GetAll(cancellationToken)).FirstOrDefault(item => item.Id == id);
 
         Task<T> GetById(int id, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<T>> GetFirsts(int count, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<T>> GetLasts(int count, CancellationToken cancellationToken = default);
+
+        Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
+            CancellationToken cancellationToken = default);
 
         Task<T> Add(T item, CancellationToken cancellationToken = default);
 

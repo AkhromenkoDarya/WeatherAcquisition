@@ -54,7 +54,7 @@ namespace WeatherAcquisition.WPF.ViewModels
 
         #endregion
 
-        public ObservableCollection<DataSource> DataSources { get; } = new();
+        public ObservableCollection<DataSource> DataSources { get; } = new ObservableCollection<DataSource>();
 
         public MainWindowViewModel(IUserDialog userDialog, IDataService dataService, 
             IRepository<DataSource> dataSourceRepository)

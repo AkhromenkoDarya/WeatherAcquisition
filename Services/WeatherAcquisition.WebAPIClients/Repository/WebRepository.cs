@@ -71,6 +71,40 @@ namespace WeatherAcquisition.WebAPIClients.Repository
                 .ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<T>> GetFirsts(int count, 
+            CancellationToken cancellationToken = default)
+        {
+            HttpResponseMessage response = await _client.GetAsync($"firsts[{count}]",
+                cancellationToken).ConfigureAwait(false);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            return await response
+                .Content
+                .ReadFromJsonAsync<IEnumerable<T>>(cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<T>> GetLasts(int count, 
+            CancellationToken cancellationToken = default)
+        {
+            HttpResponseMessage response = await _client.GetAsync($"lasts[{count}]",
+                cancellationToken).ConfigureAwait(false);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            return await response
+                .Content
+                .ReadFromJsonAsync<IEnumerable<T>>(cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
+        }
+
         public async Task<IPage<T>> GetPage(int pageIndex, int pageSize, 
             CancellationToken cancellationToken = default)
         {
@@ -113,6 +147,7 @@ namespace WeatherAcquisition.WebAPIClients.Repository
         {
             HttpResponseMessage response = await _client.PostAsJsonAsync("", item, 
                 cancellationToken).ConfigureAwait(false);
+
             T result = await response
                 .EnsureSuccessStatusCode()
                 .Content
@@ -125,6 +160,7 @@ namespace WeatherAcquisition.WebAPIClients.Repository
         {
             HttpResponseMessage response = await _client.PutAsJsonAsync("", item,
                 cancellationToken).ConfigureAwait(false);
+
             T result = await response
                 .EnsureSuccessStatusCode()
                 .Content
@@ -135,8 +171,6 @@ namespace WeatherAcquisition.WebAPIClients.Repository
 
         public async Task<T> Delete(T item, CancellationToken cancellationToken = default)
         {
-            //return await DeleteById(item.Id, cancellationToken).ConfigureAwait(false);
-
             var request = new HttpRequestMessage(HttpMethod.Delete, "")
             {
                 Content = JsonContent.Create(item)
@@ -144,19 +178,6 @@ namespace WeatherAcquisition.WebAPIClients.Repository
 
             HttpResponseMessage response = await _client.SendAsync(request, cancellationToken)
                 .ConfigureAwait(false);
-
-            T result = await response
-                .EnsureSuccessStatusCode()
-                .Content
-                .ReadFromJsonAsync<T>(cancellationToken: cancellationToken)
-                .ConfigureAwait(false);
-            return result;
-        }
-
-        public async Task<T> DeleteById(int id, CancellationToken cancellationToken = default)
-        {
-            HttpResponseMessage response = await _client.DeleteAsync($"{id}", 
-                cancellationToken).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
@@ -169,6 +190,18 @@ namespace WeatherAcquisition.WebAPIClients.Repository
                 .ReadFromJsonAsync<T>(cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return result;
+        }
+
+        public async Task<T> DeleteById(int id, CancellationToken cancellationToken = default)
+        {
+            T item = await GetById(id, cancellationToken).ConfigureAwait(false);
+
+            if (item is null)
+            {
+                return default;
+            }
+
+            return await Delete(item, cancellationToken).ConfigureAwait(false);
         }
     }
 }

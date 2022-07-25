@@ -80,10 +80,17 @@ namespace WeatherAcquisition.ConsoleUI
                     Description = $"Description at {DateTime.Now:HH-mm-ss}"
                 });
 
-            DataSource[] firstItems = (await dataSources.Get(0, 2)).ToArray();
+            //DataSource[] firstItems = (await dataSources.Get(0, 2)).ToArray();
+
+            DataSource[] firstItems = (await dataSources.GetFirsts(-3)).ToArray();
 
             DataSource firstDeletedItem = await dataSources.DeleteById(firstItems[0].Id);
             DataSource secondDeletedItem = await dataSources.Delete(firstItems[1]);
+
+            DataSource[] lastItems = (await dataSources.GetLasts(2)).ToArray();
+
+            firstDeletedItem = await dataSources.DeleteById(lastItems[0].Id);
+            secondDeletedItem = await dataSources.Delete(lastItems[1]);
 
             Console.WriteLine("Done!");
             Console.ReadLine();

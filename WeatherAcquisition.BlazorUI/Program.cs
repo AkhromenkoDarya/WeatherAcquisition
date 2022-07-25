@@ -32,7 +32,7 @@ namespace WeatherAcquisition.BlazorUI
             services.AddApi<IRepository<DataSourceInfo>, WebRepository<DataSourceInfo>>(
                 "api/SourceRepository");
 
-                await builder.Build().RunAsync();
+            await builder.Build().RunAsync();
         }
     }
 }
