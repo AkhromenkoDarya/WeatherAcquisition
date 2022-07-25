@@ -23,13 +23,13 @@ namespace WeatherAcquisition.DAL.Context
                 .WithOne(v => v.Source)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<DataSource>()
-            //    .Property(source => source.Name)
-            //    .IsRequired();
+            modelBuilder.Entity<DataSource>()
+                .Property(source => source.Name)
+                .IsRequired();
 
-            //modelBuilder.Entity<DataSource>()
-            //    .HasIndex(source => source.Name)
-            //    .IsUnique();
+            modelBuilder.Entity<DataSource>()
+                .HasIndex(source => source.Name)
+                .IsUnique(false);
         }
     }
 }

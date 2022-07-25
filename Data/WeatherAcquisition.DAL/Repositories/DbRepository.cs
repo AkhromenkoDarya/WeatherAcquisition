@@ -145,6 +145,29 @@ namespace WeatherAcquisition.DAL.Repositories
             };
         }
 
+        public async Task<IEnumerable<T>> GetFirsts(int count, 
+            CancellationToken cancellationToken = default)
+        {
+            if (count <= 0 || count > Items.Count())
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            return await Get(0, count, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<T>> GetLasts(int count, 
+            CancellationToken cancellationToken = default)
+        {
+            if (count <= 0 || count > Items.Count())
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            return await Get(Items.Count() - count, count, cancellationToken)
+                .ConfigureAwait(false);
+        }
+
         public async Task<T> Add(T item, CancellationToken cancellationToken = default)
         {
             if (item is null)

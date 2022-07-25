@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace WeatherAcquisition.DAL.SqlServer.Migrations
 {
     public partial class Init : Migration
@@ -14,7 +16,7 @@ namespace WeatherAcquisition.DAL.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +32,7 @@ namespace WeatherAcquisition.DAL.SqlServer.Migrations
                     Time = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SourceId = table.Column<int>(type: "int", nullable: true),
-                    IsFailed = table.Column<bool>(type: "bit", nullable: false)
+                    IsFaulty = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,9 +46,19 @@ namespace WeatherAcquisition.DAL.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Sources_Name",
+                table: "Sources",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Values_SourceId",
                 table: "Values",
                 column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Values_Time",
+                table: "Values",
+                column: "Time");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
